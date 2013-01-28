@@ -54,7 +54,7 @@
 using namespace std;
 
 #include "RVersion.h"
-#if ROOT_VERSION_CODE > ROOT_VERSION(5,34,3)
+#if ROOT_VERSION_CODE > ROOT_VERSION(5,34,4)
 #  define TH1CANEXTEND SetCanExtend(TH1::kAllAxes)
 #  define TH1CANNOTEXTEND SetCanExtend(TH1::kNoAxes)
 #  define TH1CANEXTENDALL CanExtendAllAxes()

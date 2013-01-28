@@ -4,21 +4,13 @@
 # @author Pere Mato, CERN
 ############################################################################
 
-ROOT_USE_PACKAGE(proofd)
-ROOT_USE_PACKAGE(proofplayer)
+# ROOT_USE_PACKAGE(proofd)
+# ROOT_USE_PACKAGE(proofplayer)
 
-if(WIN32)
-  set(headers TXProofMgr.h TXSlave.h TXSocket.h TXSocketHandler.h TXHandler.h)
-  set(sources TXProofMgr.cxx TXSlave.cxx TXSocket.cxx TXSocketHandler.cxx TXHandler.cxx 
-               ../proofd/XrdProofConn.cxx ../proofd/XrdProofPhyConn.cxx ../proofd/XProofProtUtils.cxx)
-else()
-#  ROOT_GLOB_HEADERS(headers RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/inc ${CMAKE_CURRENT_SOURCE_DIR}/inc/*.h)
-#  ROOT_GLOB_SOURCES(sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cxx)
   ROOT_GLOB_HEADERS(headers *.h)
   ROOT_GLOB_SOURCES(sources *.cxx)
-endif()
 
-include_directories(${XROOTD_INCLUDE_DIR})
+include_directories(BEFORE ../proof ../proofd ${XROOTD_INCLUDE_DIR} ${ROOT_INCLUDE_DIR})
 link_directories(${XROOTD_LIBRARY_DIR})
 add_definitions(${XROOTD_CFLAGS})
 
