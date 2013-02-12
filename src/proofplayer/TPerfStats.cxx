@@ -44,7 +44,7 @@
 #include "TProofMonSender.h"
 
 #include "RVersion.h"
-#if ROOT_VERSION_CODE > ROOT_VERSION(5,34,3)
+#if ROOT_VERSION_CODE > ROOT_VERSION(5,34,4)
 #  define TH1CANEXTEND SetCanExtend(TH1::kAllAxes)
 #else
 #  define TH1CANEXTEND SetBit(TH1::kCanRebin)

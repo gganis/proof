@@ -17,7 +17,9 @@
 //                                                                      //
 //////////////////////////////////////////////////////////////////////////
 
-#include "MessageTypes.h"
+//#include "MessageTypes.h"
+#include "ProofProtocol.h"
+
 #include "TEnv.h"
 #include "TError.h"
 #include "TException.h"

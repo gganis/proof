@@ -9,10 +9,10 @@
 # ROOT_USE_PACKAGE(core/thread)
 include_directories(BEFORE ${ROOT_INCLUDE_DIR}) # To avoid circular dependencies :-(
 
-# ROOT_GLOB_HEADERS(headers RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/inc inc/*.h)
-# ROOT_GLOB_SOURCES(sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/src src/*.cxx)
-ROOT_GLOB_HEADERS(headers *.h)
-ROOT_GLOB_SOURCES(sources *.cxx)
+ROOT_GLOB_HEADERS(headers RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.h)
+ROOT_GLOB_SOURCES(sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.cxx)
+# ROOT_GLOB_HEADERS(headers *.h)
+# ROOT_GLOB_SOURCES(sources *.cxx)
 
 #--- AliEn Dataset manager only if AliEn is available
 if(alien)
@@ -22,10 +22,12 @@ else()
   list(REMOVE_ITEM sources TDataSetManagerAliEn.cxx)
 endif()
 
+message(STATUS "sources" ${sources})
+
 #--- if gcc 4.5.2 on Linux (Debian) use -O instead of -O2 (compiler bug)
 if(ROOT_PLATFORM MATCHES "linux" AND CMAKE_COMPILER_IS_GNUCXX AND 
    GCC_VERSION VERSION_GREATER 4.5 AND GCC_VERSION VERSION_LESS 4.6)
-  set_source_files_properties(src/TDataSetManager.cxx src/TDSet PROPERTIES COMPILE_FLAGS "-O")
+  set_source_files_properties(TDataSetManager.cxx TDSet.cxx PROPERTIES COMPILE_FLAGS "-O")
 endif()
 
 ROOT_GENERATE_DICTIONARY(G__Proof ${headers} LINKDEF LinkDef.h)

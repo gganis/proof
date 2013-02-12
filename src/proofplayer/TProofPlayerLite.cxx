@@ -20,7 +20,9 @@
 
 #include "TProofPlayerLite.h"
 
-#include "MessageTypes.h"
+//#include "MessageTypes.h"
+#include "ProofProtocol.h"
+
 #include "TDSet.h"
 #include "TDSetProxy.h"
 #include "TEntryList.h"

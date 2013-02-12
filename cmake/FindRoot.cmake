@@ -38,20 +38,32 @@ else()
     include )
   set( ROOT_INCLUDE_DIRS ${ROOT_INCLUDE_DIR})
 
-  find_library(
-    ROOT_LIBRARY
-    NAMES Core Net
-    HINTS
-    ${ROOT_ROOT_DIR}
-    PATH_SUFFIXES lib64
-    ${LIBRARY_PATH_PREFIX}
-    ${LIB_SEARCH_OPTIONS})
-  set( ROOT_LIBRARIES ${ROOT_LIBRARY} )
+#   find_library(
+#     ROOT_LIBRARY
+#     NAMES Hist Matrix Tree RIO Net Thread MathCore Core Caz
+#     HINTS
+#     ${ROOT_ROOT_DIR}
+#     PATH_SUFFIXES lib64
+#     ${LIBRARY_PATH_PREFIX}
+#     ${LIB_SEARCH_OPTIONS})
+#   set( ROOT_LIBRARIES ${ROOT_LIBRARY} )
+
+  foreach(l Hist Matrix Tree RIO Net Thread MathCore Core)
+    find_library(ROOT_${l}_LIBRARY
+       NAMES ${l} 
+       HINTS
+       ${ROOT_ROOT_DIR}
+       PATH_SUFFIXES lib64
+       ${LIBRARY_PATH_PREFIX}
+       ${LIB_SEARCH_OPTIONS})
+    list(APPEND ROOT_LIBRARIES ${ROOT_${l}_LIBRARY})
+  endforeach()
+  execute_process(COMMAND dirname ${ROOT_Core_LIBRARY} OUTPUT_VARIABLE ROOT_LIBRARY_DIR OUTPUT_STRIP_TRAILING_WHITESPACE)
 
   find_package_handle_standard_args(
     ROOT
     DEFAULT_MSG
-    ROOT_LIBRARY ROOT_INCLUDE_DIR )
+    ROOT_INCLUDE_DIR ROOT_LIBRARY_DIR)
 
-   mark_as_advanced( ROOT_INCLUDE_DIR ROOT_LIBRARY )
+   mark_as_advanced( ROOT_INCLUDE_DIR ROOT_LIBRARIES ROOT_LIBRARY_DIR)
 endif()

@@ -5,7 +5,7 @@
 
 # ROOT_USE_PACKAGE(proof)
 # ROOT_USE_PACKAGE(tree/treeplayer)
-include_directories(BEFORE ${ROOT_INCLUDE_DIR}) # To avoid circular dependencies :-(
+include_directories(BEFORE ${ROOT_INCLUDE_DIR} ../proof) # To avoid circular dependencies :-(
 
 ROOT_GLOB_HEADERS(headers *.h)
 list(REMOVE_ITEM headers ${CMAKE_CURRENT_SOURCE_DIR}/TProofDraw.h

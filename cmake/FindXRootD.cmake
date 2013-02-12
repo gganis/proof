@@ -13,19 +13,20 @@ if(XROOTD_XrdClient_LIBRARY AND XROOTD_INCLUDE_DIR)
   set(XROOTD_FIND_QUIETLY TRUE)
 endif()
 
-find_path(XROOTD_INCLUDE_DIR
-  NAMES
-  XrdVersion.hh
-  PATHS 
-  $ENV{XRDSYS}/include/xrootd
-  $ENV{XRDSYS}/include
-  /opt/xrootd/include/xrootd
-  /opt/xrootd/include
-  /usr/local/include/xrootd
-  /usr/local/include
-  /usr/include/xrootd
-  /usr/include
+find_path(
+  XROOTD_INCTMP_DIR
+  NAMES XrdVersion.hh
+   HINTS
+     ${XROOTD_INC_DIR}
+     ${XROOTD_ROOT_DIR}
+     $ENV{XRDSYS}
+     /opt/xrootd
+     /usr/local
+     /usr
+   PATH_SUFFIXES
+     include include/xrootd
 )
+set(XROOTD_INCLUDE_DIR ${XROOTD_INCTMP_DIR})
 
 if (XROOTD_INCLUDE_DIR)
   file(STRINGS ${XROOTD_INCLUDE_DIR}/XrdVersion.hh xrdvers REGEX "^#define XrdVERSION")
@@ -121,43 +122,56 @@ if(XROOTD_FOUND)
     foreach(l XrdNet XrdOuc XrdSys XrdClient Xrd)
       find_library(XROOTD_${l}_LIBRARY
          NAMES ${l} 
-         PATHS $ENV{XRDSYS}/lib
-               /opt/xrootd/lib
-               /usr/local/lib
-               /usr/lib)
+         PATHS ${XROOTD_LIB_DIR}
+               ${XROOTD_ROOT_DIR}/lib64 ${XROOTD_ROOT_DIR}/lib
+               $ENV{XRDSYS}/lib64 $ENV{XRDSYS}/lib
+               /opt/xrootd/lib64 /opt/xrootd/lib
+               /usr/local/lib64 /usr/local/lib
+               /usr/lib64 /usr/lib)
       list(APPEND XROOTD_LIBRARIES ${XROOTD_${l}_LIBRARY})
     endforeach()
 
     if(${xrdversnum} GREATER 20100729)
       find_library(XROOTD_XrdNetUtil_LIBRARY
         NAMES XrdNetUtil
-        PATHS $ENV{XRDSYS}/lib
-              /opt/xrootd/lib
-              /usr/local/lib
-              /usr/lib)
+        PATHS ${XROOTD_LIB_DIR}
+              ${XROOTD_ROOT_DIR}/lib64 ${XROOTD_ROOT_DIR}/lib
+              $ENV{XRDSYS}/lib64 $ENV{XRDSYS}/lib
+              /opt/xrootd/lib64 /opt/xrootd/lib
+              /usr/local/lib64 /usr/local/lib
+              /usr/lib64 /usr/lib)
       list(APPEND XROOTD_LIBRARIES ${XROOTD_XrdNetUtil_LIBRARY})
     endif ()
+    execute_process(COMMAND dirname ${XROOTD_XrdNet_LIBRARY} OUTPUT_VARIABLE XROOTD_LIBRARY_DIR OUTPUT_STRIP_TRAILING_WHITESPACE)
   else()
     foreach(l XrdMain XrdUtils XrdClient)
       find_library(XROOTD_${l}_LIBRARY
          NAMES ${l} 
-         PATHS $ENV{XRDSYS}/lib
-               /opt/xrootd/lib
-               /usr/local/lib
-               /usr/lib)
+         PATHS ${XROOTD_LIB_DIR}
+               ${XROOTD_ROOT_DIR}/lib64 ${XROOTD_ROOT_DIR}/lib
+               $ENV{XRDSYS}/lib64 $ENV{XRDSYS}/lib
+               /opt/xrootd/lib64 /opt/xrootd/lib
+               /usr/local/lib64 /usr/local/lib
+               /usr/lib64 /usr/lib)
       list(APPEND XROOTD_LIBRARIES ${XROOTD_${l}_LIBRARY})
     endforeach()
+    execute_process(COMMAND dirname ${XROOTD_XrdMain_LIBRARY} OUTPUT_VARIABLE XROOTD_LIBRARY_DIR OUTPUT_STRIP_TRAILING_WHITESPACE)
   endif()
 
-  if(XROOTD_LIBRARIES)
-    set(XROOTD_FOUND TRUE)
-    if(NOT XROOTD_FIND_QUIETLY )
-      message(STATUS "             include_dir: ${XROOTD_INCLUDE_DIR}")
-      message(STATUS "             libraries: ${XROOTD_LIBRARIES}")
-    endif() 
-  else ()
-    set(XROOTD_FOUND FALSE)
-  endif ()
+  find_package_handle_standard_args(
+    XROOTD
+    DEFAULT_MSG
+    XROOT_INCLUDE_DIR XROOTD_LIBRARY_DIR)
+
+#   if(XROOTD_LIBRARIES)
+#     set(XROOTD_FOUND TRUE)
+#     if(NOT XROOTD_FIND_QUIETLY )
+#       message(STATUS "             include_dir: ${XROOTD_INCLUDE_DIR}")
+#       message(STATUS "             libraries: ${XROOTD_LIBRARIES}")
+#     endif() 
+#   else ()
+#     set(XROOTD_FOUND FALSE)
+#   endif ()
 endif()
 
 mark_as_advanced(XROOTD_INCLUDE_DIR 

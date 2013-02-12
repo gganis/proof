@@ -17,6 +17,8 @@ include( PROOFDefaults )
 # include( PROOFFindLibs )
 include(RootNewMacros)
 
+set (alien FALSE)
+
 #-------------------------------------------------------------------------------
 # VOMS Libs required
 #-------------------------------------------------------------------------------
@@ -36,8 +38,8 @@ message( STATUS "Installation path: " ${CMAKE_INSTALL_PREFIX} )
 message( STATUS "Build type:        " ${CMAKE_BUILD_TYPE} )
 message( STATUS "ROOT Version:      " ${ROOT_VERSION} )
 message( STATUS "ROOT include path: " ${ROOT_INCLUDE_DIR} )
-message( STATUS "ROOT library path: " ${ROOT_LIBRARY} )
+message( STATUS "ROOT library path: " ${ROOT_LIBRARY_DIR} )
 message( STATUS "XRootD include path: " ${XROOTD_INCLUDE_DIR} )
-message( STATUS "XRootD library path: " ${XROOTD_LIBRARY} )
+message( STATUS "XRootD library path: " ${XROOTD_LIBRARY_DIR} )
 message( STATUS "----------------------------------------" )
 

@@ -39,6 +39,9 @@
 #ifndef ROOT_MessageTypes
 #include "MessageTypes.h"
 #endif
+#ifndef ROOT_ProofProtocol
+#include "ProofProtocol.h"
+#endif
 #ifndef ROOT_TMD5
 #include "TMD5.h"
 #endif
